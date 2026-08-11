@@ -31,16 +31,18 @@
     // Vertical band: 0 = top of artboard, 1 = bottom
     bandCenter: 0.50,
     // Width of the dark band (smaller = tighter middle concentration)
-    bandSigma: 0.16,
+    bandSigma: 0.18,
     // Peak chance a cell in the densest row becomes a "dark" candidate (0–1)
-    peakDarkChance: 0.55,
-    // How strongly candidate cells push toward black once selected
-    blackBias: 0.75,
+    // Lower = more open / scattered middle (less condensed)
+    peakDarkChance: 0.28,
+    // How strongly candidate cells push toward the darkest tone
+    blackBias: 0.45,
     // Light base tint (K%) for quiet top/bottom areas
     lightK: 8,
-    midK: 35,
-    darkK: 70,
-    blackK: 100,
+    midK: 28,
+    darkK: 48,
+    // Hard ceiling for darkest squares (print)
+    blackK: 65,
     // Optional solid frosted stripes (like the glass partition reference)
     includeStripes: true,
     topStripe1Mm: 18,
@@ -88,13 +90,13 @@
     var peakField = addRow(densPanel, "Peak dark chance (0–1)", defaults.peakDarkChance);
     var biasField = addRow(densPanel, "Black bias inside band (0–1)", defaults.blackBias);
 
-    var colorPanel = dlg.add("panel", undefined, "CMYK black (K%) levels");
+    var colorPanel = dlg.add("panel", undefined, "Ink levels (K%) — darkest capped");
     colorPanel.alignChildren = ["fill", "top"];
     colorPanel.margins = 12;
     var lightField = addRow(colorPanel, "Light base K%", defaults.lightK);
     var midField = addRow(colorPanel, "Mid K%", defaults.midK);
     var darkField = addRow(colorPanel, "Dark K%", defaults.darkK);
-    var blackField = addRow(colorPanel, "Black K%", defaults.blackK);
+    var blackField = addRow(colorPanel, "Darkest K% (max)", defaults.blackK);
 
     var stripePanel = dlg.add("panel", undefined, "Solid frosted stripes (optional)");
     stripePanel.alignChildren = ["fill", "top"];
@@ -132,6 +134,11 @@
       return isNaN(v) ? fallback : v;
     }
 
+    var blackK = clamp(num(blackField, defaults.blackK), 0, 100);
+    var darkK = clamp(num(darkField, defaults.darkK), 0, blackK);
+    var midK = clamp(num(midField, defaults.midK), 0, darkK);
+    var lightK = clamp(num(lightField, defaults.lightK), 0, midK);
+
     return {
       squareSizeMm: Math.max(0.5, num(squareSizeField, defaults.squareSizeMm)),
       gapMm: Math.max(0, num(gapField, defaults.gapMm)),
@@ -139,10 +146,10 @@
       bandSigma: clamp(num(sigmaField, defaults.bandSigma), 0.05, 0.5),
       peakDarkChance: clamp(num(peakField, defaults.peakDarkChance), 0, 1),
       blackBias: clamp(num(biasField, defaults.blackBias), 0, 1),
-      lightK: clamp(num(lightField, defaults.lightK), 0, 100),
-      midK: clamp(num(midField, defaults.midK), 0, 100),
-      darkK: clamp(num(darkField, defaults.darkK), 0, 100),
-      blackK: clamp(num(blackField, defaults.blackK), 0, 100),
+      lightK: lightK,
+      midK: midK,
+      darkK: darkK,
+      blackK: blackK,
       includeStripes: stripesCheck.value,
       topStripe1Mm: Math.max(0, num(top1Field, defaults.topStripe1Mm)),
       topStripe2Mm: Math.max(0, num(top2Field, defaults.topStripe2Mm)),
@@ -184,13 +191,27 @@
     };
   }
 
-  function cmykBlack(kPercent) {
-    var c = new CMYKColor();
-    c.cyan = 0;
-    c.magenta = 0;
-    c.yellow = 0;
-    c.black = clamp(kPercent, 0, 100);
-    return c;
+  /**
+   * Build a fill that matches the document color space.
+   * Assigning CMYKColor in an RGB document (or vice versa) throws error 1224.
+   */
+  function inkFill(kPercent) {
+    var k = clamp(kPercent, 0, 100);
+    if (doc.documentColorSpace === DocumentColorSpace.CMYK) {
+      var c = new CMYKColor();
+      c.cyan = 0;
+      c.magenta = 0;
+      c.yellow = 0;
+      c.black = k;
+      return c;
+    }
+    // RGB / other: approximate K% as neutral gray
+    var g = new RGBColor();
+    var v = 255 * (1 - k / 100);
+    g.red = v;
+    g.green = v;
+    g.blue = v;
+    return g;
   }
 
   // Gaussian envelope peaking at bandCenter; ~0 at top/bottom when sigma is modest
@@ -202,30 +223,36 @@
   /**
    * Pick a K% for one square.
    * Quiet zones (low envelope): stay near lightK with tiny variation.
-   * Middle band: stochastic scatter into mid / dark / black.
+   * Middle band: sparse scatter into mid / dark / darkest (never above blackK).
    */
   function pickK(yNorm, opts, rnd) {
+    var maxK = opts.blackK;
     var env = densityEnvelope(yNorm, opts.bandCenter, opts.bandSigma);
     var lightJitter = (rnd() - 0.5) * 4; // ±2 K on the frost base
-    var base = clamp(opts.lightK + lightJitter, 0, 100);
+    var base = clamp(opts.lightK + lightJitter, 0, maxK);
 
-    // Almost never dark at the extremes
+    // Almost never dark at the extremes; middle stays open/scattered
     if (rnd() > env * opts.peakDarkChance) {
       return base;
     }
 
-    // Inside the active band: scattered mid→black, biased by envelope + blackBias
-    var u = rnd();
-    // Power curve: higher blackBias → more pure blacks among candidates
-    var t = Math.pow(u, 1.35 - opts.blackBias * 0.9) * (0.35 + env * 0.65);
+    // Extra openness: among candidates, many stay mid-light so the band does not clump
+    if (rnd() > 0.55 + opts.blackBias * 0.25) {
+      return clamp(lerp(opts.lightK, opts.midK, rnd() * 0.85), 0, maxK);
+    }
 
-    if (t < 0.35) {
-      return lerp(opts.lightK, opts.midK, t / 0.35 + rnd() * 0.15);
+    // Inside the active band: scattered mid → darkest, capped at blackK.
+    // u in [0,1]; higher power → fewer near-max darks (more speckled).
+    var u = Math.pow(rnd(), 1.7 - opts.blackBias * 0.6);
+
+    if (u < 0.55) {
+      return clamp(lerp(opts.lightK, opts.midK, u / 0.55), 0, maxK);
     }
-    if (t < 0.7) {
-      return lerp(opts.midK, opts.darkK, (t - 0.35) / 0.35);
+    if (u < 0.85) {
+      return clamp(lerp(opts.midK, opts.darkK, (u - 0.55) / 0.3), 0, maxK);
     }
-    return lerp(opts.darkK, opts.blackK, (t - 0.7) / 0.3);
+    // Top of the scale — can reach exactly blackK (default 65)
+    return clamp(lerp(opts.darkK, maxK, (u - 0.85) / 0.15), 0, maxK);
   }
 
   function lerp(a, b, t) {
@@ -249,10 +276,9 @@
 
   function makeRect(container, left, top, width, height, fill) {
     var rect = container.pathItems.rectangle(top, left, width, height);
-    rect.stroked = false;
     rect.filled = true;
     rect.fillColor = fill;
-    rect.strokeWidth = 0;
+    rect.stroked = false;
     return rect;
   }
 
@@ -335,7 +361,7 @@
     if (opts.includeStripes) {
       var stripeGroup = group.groupItems.add();
       stripeGroup.name = "Solid Stripes";
-      var stripeFill = cmykBlack(opts.stripeK);
+      var stripeFill = inkFill(opts.stripeK);
       var y = ab.top - 10 * MM_TO_PT;
 
       if (opts.topStripe1Mm > 0) {
@@ -390,7 +416,7 @@
       for (var col = 0; col < cols; col++) {
         var left = originX + col * step;
         var k = pickK(yNorm, opts, rnd);
-        makeRect(pixelGroup, left, top, cell, cell, cmykBlack(k));
+        makeRect(pixelGroup, left, top, cell, cell, inkFill(k));
         count++;
         if (count % redrawEvery === 0) {
           // keep UI responsive on large grids
@@ -412,7 +438,12 @@
         "Square size: " +
         opts.squareSizeMm +
         " mm\n" +
-        "Color: CMYK (K only)\n\n" +
+        "Darkest fill: K " +
+        opts.blackK +
+        "%\n" +
+        "Color space: " +
+        (doc.documentColorSpace === DocumentColorSpace.CMYK ? "CMYK" : "RGB") +
+        "\n\n" +
         "Save as .ai / .pdf / .eps / .svg for print."
     );
   }

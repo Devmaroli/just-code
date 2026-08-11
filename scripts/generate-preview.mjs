@@ -26,13 +26,13 @@ function parseArgs(argv) {
     width: 900,
     height: 1600,
     bandCenter: 0.5,
-    bandSigma: 0.16,
-    peakDarkChance: 0.55,
-    blackBias: 0.75,
+    bandSigma: 0.18,
+    peakDarkChance: 0.28,
+    blackBias: 0.45,
     lightK: 8,
-    midK: 35,
-    darkK: 70,
-    blackK: 100,
+    midK: 28,
+    darkK: 48,
+    blackK: 65,
     includeStripes: true,
     seed: 42,
     out: path.join(root, "previews", "frosted-pixel-pattern-overall.svg"),
@@ -83,20 +83,25 @@ function lerp(a, b, t) {
 }
 
 function pickK(yNorm, opts, rnd) {
+  const maxK = opts.blackK;
   const env = densityEnvelope(yNorm, opts.bandCenter, opts.bandSigma);
   const lightJitter = (rnd() - 0.5) * 4;
-  const base = clamp(opts.lightK + lightJitter, 0, 100);
+  const base = clamp(opts.lightK + lightJitter, 0, maxK);
 
   if (rnd() > env * opts.peakDarkChance) {
     return base;
   }
 
-  const u = rnd();
-  const t = Math.pow(u, 1.35 - opts.blackBias * 0.9) * (0.35 + env * 0.65);
+  // Extra openness so the mid band stays scattered, not condensed
+  if (rnd() > 0.55 + opts.blackBias * 0.25) {
+    return clamp(lerp(opts.lightK, opts.midK, rnd() * 0.85), 0, maxK);
+  }
 
-  if (t < 0.35) return lerp(opts.lightK, opts.midK, t / 0.35 + rnd() * 0.15);
-  if (t < 0.7) return lerp(opts.midK, opts.darkK, (t - 0.35) / 0.35);
-  return lerp(opts.darkK, opts.blackK, (t - 0.7) / 0.3);
+  const u = Math.pow(rnd(), 1.7 - opts.blackBias * 0.6);
+
+  if (u < 0.55) return clamp(lerp(opts.lightK, opts.midK, u / 0.55), 0, maxK);
+  if (u < 0.85) return clamp(lerp(opts.midK, opts.darkK, (u - 0.55) / 0.3), 0, maxK);
+  return clamp(lerp(opts.darkK, maxK, (u - 0.85) / 0.15), 0, maxK);
 }
 
 /** Map K% to light-background gray hex (print-like frost on glass). */

@@ -26,9 +26,9 @@ Adobe Illustrator script that fills the artboard with **separate vector squares*
 
 - **Square size / gap** — cell size and optional spacing (gap `0` = edge-to-edge tile).
 - **Band center / sigma** — where the dark cloud sits and how tall it is (smaller sigma = tighter middle band).
-- **Peak dark chance** — how often middle-band cells become dark candidates.
-- **Black bias** — among candidates, how hard it pushes toward solid black.
-- **K% levels** — CMYK black-only tints for light / mid / dark / black.
+- **Peak dark chance** — how often middle-band cells become dark candidates (lower = more scattered).
+- **Black bias** — among candidates, how hard it pushes toward the darkest tone.
+- **K% levels** — print tints for light / mid / dark / **darkest (default K 65%)**. Fills match the document color space (fixes Illustrator error 1224 on RGB docs).
 - **Solid stripes** — optional frosted bars above/below the pixel band (as in the full partition reference).
 - **Random seed** — `0` = new pattern each run; any other integer = reproducible.
 

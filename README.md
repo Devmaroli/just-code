@@ -42,6 +42,20 @@ Output lands in `grok_storyboard/`:
 
 Open `grok_storyboard/index.html` in a browser after a run.
 
+```bash
+# Checks (no API key required)
+python3 -m unittest tests/test_pipeline.py -v
+```
+
+A first-pass start/end set is in this agent run (character bible + 26 frames). Regenerate with Grok Imagine once `XAI_API_KEY` is set:
+
+```bash
+python3 grok_storyboard_pipeline.py --resume
+python3 scripts/make_contact_sheet.py
+```
+
+`previews/storyboard_contact_sheet.jpg` is the 13×2 start/end board.
+
 ## Shot list
 
 | ID | Scene | Timecode | Action |

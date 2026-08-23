@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+grok_storyboard/*.png
+grok_storyboard/*.jpg
+grok_storyboard/*.jpeg
+.env

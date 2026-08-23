@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mahabali — Sequential Storyboard</title>
+  <style>
+    :root {
+      --bg: #0b0a09;
+      --ink: #f4e6c5;
+      --muted: #b9a57a;
+      --gold: #d4a017;
+      --panel: #161310;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", Palatino, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    header {
+      padding: 2.5rem 2rem 1rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    header h1 {
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 1.4rem;
+      margin: 0 0 0.4rem;
+    }
+    header p { color: var(--muted); margin: 0; }
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 2rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .shot {
+      background: var(--panel);
+      border: 1px solid #2a2218;
+      padding: 1.25rem;
+    }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--gold);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    figure { margin: 0; }
+    img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #111;
+      display: block;
+    }
+    figcaption {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.45rem;
+      line-height: 1.4;
+    }
+    .label { color: var(--gold); font-size: 0.75rem; letter-spacing: 0.08em; }
+    details {
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 800px) {
+      .pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mahabali: The Homecoming</h1>
+    <p>Sequential start / end storyboard — 13 shots, 26 frames.</p>
+  </header>
+  <main class="grid">
+    <article class="shot">
+      <div class="meta">
+        <span>shot_01 · Scene 1</span>
+        <span>0:00-0:04</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="001_shot_01_start.txt" alt="shot_01 start" />
+          <figcaption>A closed regal eye in near-total darkness, only the faint reflection of a single distant bronze oil-lamp flame visible on the closed eyelid, embers and soft smoke drifting through frame, mythic hushed-dawn stillness.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="002_shot_01_end.txt" alt="shot_01 end" />
+          <figcaption>The same eye now fully open, iris blazing with the sharp reflected flame of the bronze oil lamp, individual eyelashes and fine skin texture lit by the warm glow, a sense of sudden calm certainty awakening.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_01 (Scene 1, 0:00-0:04). BEGINNING: A closed regal eye in near-total darkness, only the faint reflection of a single distant bronze oil-lamp flame visible on the closed eyelid, embers and soft smoke drifting through frame, mythic hushed-dawn stillness. ENDING: The same eye now fully open, iris blazing with the sharp reflected flame of the bronze oil lamp, individual eyelashes and fine skin texture lit by the warm glow, a sense of sudden calm certainty awakening. Lens stay consistent: 100mm macro cine lens, wide open aperture, razor-shallow depth of field. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_02 · Scene 1</span>
+        <span>0:04-0:12</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="003_shot_02_start.txt" alt="shot_02 start" />
+          <figcaption>Mahabali seated calmly on an obsidian throne inside a vast underground throne chamber, thousands of floating bronze oil lamps suspended motionless mid-air like frozen stars, chains of old gold draped over his shoulders, stillness before motion.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="004_shot_02_end.txt" alt="shot_02 end" />
+          <figcaption>Mahabali mid-rise from the throne, one hand pushing off the armrest, the floating lamps around him rippling outward in a visible shockwave of golden light, his full colossal scale now revealed standing.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_02 (Scene 1, 0:04-0:12). BEGINNING: Mahabali seated calmly on an obsidian throne inside a vast underground throne chamber, thousands of floating bronze oil lamps suspended motionless mid-air like frozen stars, chains of old gold draped over his shoulders, stillness before motion. ENDING: Mahabali mid-rise from the throne, one hand pushing off the armrest, the floating lamps around him rippling outward in a visible shockwave of golden light, his full colossal scale now revealed standing. Lens stay consistent: 18mm anamorphic cine lens, deep-format sensor, wide low angle. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_03 · Scene 2</span>
+        <span>0:12-0:17</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="005_shot_03_start.txt" alt="shot_03 start" />
+          <figcaption>A servant's hand beginning to tip a vessel of turmeric-gold oil, the first droplet just leaving the rim, Mahabali's open palm waiting below, macro close focus.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="006_shot_03_end.txt" alt="shot_03 end" />
+          <figcaption>The oil fully poured and running down Mahabali's lean, gracefully muscular forearm, his hands snapping together into a single loud clap, a flash of impact light on his skin.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_03 (Scene 2, 0:12-0:17). BEGINNING: A servant's hand beginning to tip a vessel of turmeric-gold oil, the first droplet just leaving the rim, Mahabali's open palm waiting below, macro close focus. ENDING: The oil fully poured and running down Mahabali's lean, gracefully muscular forearm, his hands snapping together into a single loud clap, a flash of impact light on his skin. Lens stay consistent: 100mm macro cine lens, extremely shallow depth of field, slow motion. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_04 · Scene 2</span>
+        <span>0:17-0:22</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="007_shot_04_start.txt" alt="shot_04 start" />
+          <figcaption>Attendants in soft motion-blurred silhouette just beginning to apply sandal paste to Mahabali's forearms, the king standing still and sharply in focus at the center as the camera begins its orbit.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="008_shot_04_end.txt" alt="shot_04 end" />
+          <figcaption>The sandal paste fully applied in ceremonial patterns, the camera having completed a full circular orbit around Mahabali, swirling smoke and dust now caught in warm rim light around his still, powerful frame.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_04 (Scene 2, 0:17-0:22). BEGINNING: Attendants in soft motion-blurred silhouette just beginning to apply sandal paste to Mahabali's forearms, the king standing still and sharply in focus at the center as the camera begins its orbit. ENDING: The sandal paste fully applied in ceremonial patterns, the camera having completed a full circular orbit around Mahabali, swirling smoke and dust now caught in warm rim light around his still, powerful frame. Lens stay consistent: 50mm cine prime lens, shallow depth of field, fast orbiting dolly at waist height. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_05 · Scene 2</span>
+        <span>0:22-0:27</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="009_shot_05_start.txt" alt="shot_05 start" />
+          <figcaption>The traditional tall tiered gold kireetam crown suspended an inch above Mahabali's head, held by two attendants, his eyes still calm and closed beneath it.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="010_shot_05_end.txt" alt="shot_05 end" />
+          <figcaption>The crown now fully seated on his head, hammered gold and ruby-pearl inlay catching a sweep of white-gold highlight, his eyes flashing open with sudden regal intensity.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_05 (Scene 2, 0:22-0:27). BEGINNING: The traditional tall tiered gold kireetam crown suspended an inch above Mahabali's head, held by two attendants, his eyes still calm and closed beneath it. ENDING: The crown now fully seated on his head, hammered gold and ruby-pearl inlay catching a sweep of white-gold highlight, his eyes flashing open with sudden regal intensity. Lens stay consistent: 85mm cine prime lens, shallow depth of field, whip-zoom. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_06 · Scene 2</span>
+        <span>0:27-0:34</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="011_shot_06_start.txt" alt="shot_06 start" />
+          <figcaption>Mahabali's hands just beginning to fasten the ceremonial gold-thread waist-cloth at his hip, flower petals still resting motionless on the ground around him.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="012_shot_06_end.txt" alt="shot_06 end" />
+          <figcaption>The waist-cloth now snapped fully taut like a banner in impossible wind, flower petals mid-air and rising upward instead of falling, dust and lamp-smoke swirling in defiant mythic gravity.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_06 (Scene 2, 0:27-0:34). BEGINNING: Mahabali's hands just beginning to fasten the ceremonial gold-thread waist-cloth at his hip, flower petals still resting motionless on the ground around him. ENDING: The waist-cloth now snapped fully taut like a banner in impossible wind, flower petals mid-air and rising upward instead of falling, dust and lamp-smoke swirling in defiant mythic gravity. Lens stay consistent: 35mm anamorphic cine lens, low angle, high frame rate slow motion. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_09 · Scene 4</span>
+        <span>0:34-0:41</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="013_shot_09_start.txt" alt="shot_09 start" />
+          <figcaption>Mahabali beginning his first stride down a vast underground stone corridor, a distant vertical shaft of golden light far ahead of him, obsidian shadow surrounding him.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="014_shot_09_end.txt" alt="shot_09 end" />
+          <figcaption>Mahabali now much closer to the light shaft, a visible ring of golden light rippling outward from his most recent footstep, his golden waist-cloth billowing though there is no wind.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_09 (Scene 4, 0:34-0:41). BEGINNING: Mahabali beginning his first stride down a vast underground stone corridor, a distant vertical shaft of golden light far ahead of him, obsidian shadow surrounding him. ENDING: Mahabali now much closer to the light shaft, a visible ring of golden light rippling outward from his most recent footstep, his golden waist-cloth billowing though there is no wind. Lens stay consistent: 35mm cine prime lens, low-angle tracking shot, camera walking backward ahead of subject. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_10 · Scene 4</span>
+        <span>0:41-0:48</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="015_shot_10_start.txt" alt="shot_10 start" />
+          <figcaption>Mahabali's foot an instant from touching the golden threshold of light, cold obsidian darkness still surrounding most of the frame.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="016_shot_10_end.txt" alt="shot_10 end" />
+          <figcaption>His foot now fully crossed into the golden light, an explosion of marigold petals and turmeric-gold dust radiating outward mid-burst, the frame split between cold dark and blinding volumetric gold.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_10 (Scene 4, 0:41-0:48). BEGINNING: Mahabali's foot an instant from touching the golden threshold of light, cold obsidian darkness still surrounding most of the frame. ENDING: His foot now fully crossed into the golden light, an explosion of marigold petals and turmeric-gold dust radiating outward mid-burst, the frame split between cold dark and blinding volumetric gold. Lens stay consistent: 24mm cine lens, extreme high frame rate, dynamic whip-around composition. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_10_5 · Scene 4.5</span>
+        <span>0:48-0:54</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="017_shot_10_5_start.txt" alt="shot_10_5 start" />
+          <figcaption>A small elderly attendant stepping out of a soft golden haze, a rolled palm-leaf scroll still held low in both hands, Mahabali just stopping mid-stride to notice him.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="018_shot_10_5_end.txt" alt="shot_10_5 end" />
+          <figcaption>The attendant now fully extending the scroll upward as an offering, Mahabali's hand reaching down to gently receive it, warm intimate eye contact between king and attendant.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_10_5 (Scene 4.5, 0:48-0:54). BEGINNING: A small elderly attendant stepping out of a soft golden haze, a rolled palm-leaf scroll still held low in both hands, Mahabali just stopping mid-stride to notice him. ENDING: The attendant now fully extending the scroll upward as an offering, Mahabali's hand reaching down to gently receive it, warm intimate eye contact between king and attendant. Lens stay consistent: 50mm cine prime lens, natural soft falloff, medium shot. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_11 · Scene 4.5</span>
+        <span>0:54-0:58</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="019_shot_11_start.txt" alt="shot_11 start" />
+          <figcaption>Mahabali's hand just closing gently around the rolled palm-leaf scroll, the turmeric-sealed twine still tied, soft golden top-light on his skin and gold bracelets.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="020_shot_11_end.txt" alt="shot_11 end" />
+          <figcaption>The scroll now fully unrolled in his hands, palm-leaf script visible, his eyes just beginning to lower to read it.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_11 (Scene 4.5, 0:54-0:58). BEGINNING: Mahabali's hand just closing gently around the rolled palm-leaf scroll, the turmeric-sealed twine still tied, soft golden top-light on his skin and gold bracelets. ENDING: The scroll now fully unrolled in his hands, palm-leaf script visible, his eyes just beginning to lower to read it. Lens stay consistent: 100mm macro cine lens, shallow depth of field. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_12 · Scene 4.5</span>
+        <span>0:58-1:12</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="021_shot_12_start.txt" alt="shot_12 start" />
+          <figcaption>Mahabali's face reading the scroll, expression still composed and ceremonial, warm golden top-light modeling strong noble features.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="022_shot_12_end.txt" alt="shot_12 end" />
+          <figcaption>His expression now fully softened into private, unguarded warmth and quiet joy, a faint glisten in his eyes, the ceremonial mask completely dissolved into genuine emotion.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_12 (Scene 4.5, 0:58-1:12). BEGINNING: Mahabali's face reading the scroll, expression still composed and ceremonial, warm golden top-light modeling strong noble features. ENDING: His expression now fully softened into private, unguarded warmth and quiet joy, a faint glisten in his eyes, the ceremonial mask completely dissolved into genuine emotion. Lens stay consistent: 85mm cine prime portrait lens, shallow depth of field, soft top-light. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>shot_13 · Scene 4.5</span>
+        <span>1:16-1:26</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="023_shot_13_start.txt" alt="shot_13 start" />
+          <figcaption>Mahabali lowering the scroll, his eyes just beginning to lift away from it, gaze rising toward the camera, a golden light shaft glowing softly behind him.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="024_shot_13_end.txt" alt="shot_13 end" />
+          <figcaption>His eyes now locked directly down the lens in full direct address, dead-center symmetrical composition, the ghost of a quiet, certain smile fully formed on his face.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of shot_13 (Scene 4.5, 1:16-1:26). BEGINNING: Mahabali lowering the scroll, his eyes just beginning to lift away from it, gaze rising toward the camera, a golden light shaft glowing softly behind him. ENDING: His eyes now locked directly down the lens in full direct address, dead-center symmetrical composition, the ghost of a quiet, certain smile fully formed on his face. Lens stay consistent: 50mm cine prime lens, dead-center symmetrical framing, slow push-in. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+    <article class="shot">
+      <div class="meta">
+        <span>title_card · Title Card</span>
+        <span>1:28-2:00</span>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="label">Start</div>
+          <img src="025_title_card_start.txt" alt="title_card start" />
+          <figcaption>A dim, still sunset sky beginning to glow above a quiet Kerala paddy field, the faint silhouette of a crown and light shaft just starting to form in the distance.</figcaption>
+        </figure>
+        <figure>
+          <div class="label">End</div>
+          <img src="026_title_card_end.txt" alt="title_card end" />
+          <figcaption>The sky now in full golden-hour glow, the silhouette of the crown and light shaft clearly formed above the paddy field, marigold petals fully filling the air, generous empty sky space reserved at the top for title text.</figcaption>
+        </figure>
+      </div>
+      <details>
+        <summary>Motion interpolation prompt</summary>
+        <p>Interpolate photorealistic cinematic motion from the START frame to the END frame of title_card (Title Card, 1:28-2:00). BEGINNING: A dim, still sunset sky beginning to glow above a quiet Kerala paddy field, the faint silhouette of a crown and light shaft just starting to form in the distance. ENDING: The sky now in full golden-hour glow, the silhouette of the crown and light shaft clearly formed above the paddy field, marigold petals fully filling the air, generous empty sky space reserved at the top for title text. Lens stay consistent: 24mm cine lens, golden-hour natural light, deep focus, wide symbolic shot. Preserve character identity, costume, and the obsidian-black / molten-gold grade.</p>
+      </details>
+    </article>
+  </main>
+</body>
+</html>

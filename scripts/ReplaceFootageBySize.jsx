@@ -3,8 +3,8 @@
  * Adobe After Effects ExtendScript (ScriptUI)
  *
  * Pick a folder in the panel. The script finds images and videos already
- * in the project, matches them to files in that folder by pixel size
- * (width × height), and replaces the project footage with the folder files.
+ * in the project, matches them to files in that folder by exact pixel size
+ * (same width × height only), and replaces the project footage with those files.
  *
  * Install either way:
  *   File > Scripts > Run Script File…
@@ -73,8 +73,17 @@
         return n;
     }
 
+    function pixelWidth(value) {
+        return Math.round(Number(value));
+    }
+
     function sizeKey(w, h) {
-        return String(Math.round(w)) + "x" + String(Math.round(h));
+        return String(pixelWidth(w)) + "x" + String(pixelWidth(h));
+    }
+
+    function exactPixelMatch(a, b) {
+        return pixelWidth(a.width) === pixelWidth(b.width) &&
+            pixelWidth(a.height) === pixelWidth(b.height);
     }
 
     function kindFromStill(isStill, ext) {
@@ -425,6 +434,9 @@
             if (usedProject[proj.id]) {
                 return;
             }
+            if (!exactPixelMatch(proj, asset)) {
+                return;
+            }
             if (!reuseSameSize && usedFolder[safeFsName(asset.file)]) {
                 return;
             }
@@ -438,31 +450,6 @@
                 asset: asset,
                 reason: reason
             });
-        }
-
-        function matchByName(onlyUnused) {
-            for (var i = 0; i < projectItems.length; i++) {
-                var proj = projectItems[i];
-                if (onlyUnused && usedProject[proj.id]) {
-                    continue;
-                }
-                var best = null;
-                var bestScore = 0;
-                for (var j = 0; j < folderAssets.length; j++) {
-                    var asset = folderAssets[j];
-                    if (!reuseSameSize && usedFolder[safeFsName(asset.file)]) {
-                        continue;
-                    }
-                    var score = nameScore(proj.name, proj.file, asset.file);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        best = asset;
-                    }
-                }
-                if (best && bestScore >= 90) {
-                    addMatch(proj, best, "name");
-                }
-            }
         }
 
         function matchBySize() {
@@ -544,13 +531,11 @@
             }
         }
 
-        if (matchMode === "name") {
-            matchByName(false);
-        } else if (matchMode === "sizeAndName") {
-            matchBySize();
+        matchBySize();
+        if (matchMode === "sizeAndName") {
             var kept = [];
             for (var k = 0; k < matches.length; k++) {
-                if (matches[k].reason === "size+name" || matches[k].reason === "name") {
+                if (matches[k].reason === "size+name") {
                     kept.push(matches[k]);
                 } else {
                     usedProject[matches[k].project.id] = false;
@@ -558,9 +543,6 @@
                 }
             }
             matches = kept;
-        } else {
-            // size (default): match pixel size, prefer a file-name tie-break
-            matchBySize();
         }
 
         var unmatchedProject = [];
@@ -592,8 +574,24 @@
             for (var i = 0; i < matches.length; i++) {
                 var pair = matches[i];
                 try {
+                    var beforeW = pixelWidth(pair.project.width);
+                    var beforeH = pixelWidth(pair.project.height);
+                    if (!exactPixelMatch(pair.project, pair.asset)) {
+                        failed.push(pair.project.name + " → " + pair.asset.name +
+                            " (not an exact pixel match: " +
+                            pair.project.size + " vs " + pair.asset.size + ")");
+                        continue;
+                    }
                     pair.project.item.replace(pair.asset.file);
-                    replaced++;
+                    var afterW = pixelWidth(pair.project.item.width);
+                    var afterH = pixelWidth(pair.project.item.height);
+                    if (afterW !== beforeW || afterH !== beforeH) {
+                        failed.push(pair.project.name + " → " + pair.asset.name +
+                            " (size changed to " + afterW + "x" + afterH +
+                            ", expected " + beforeW + "x" + beforeH + ")");
+                    } else {
+                        replaced++;
+                    }
                 } catch (e) {
                     failed.push(pair.project.name + " → " + pair.asset.name + " (" + e.toString() + ")");
                 }
@@ -664,9 +662,6 @@
     }
 
     function currentMatchMode(ui) {
-        if (ui.matchName.value) {
-            return "name";
-        }
         if (ui.matchBoth.value) {
             return "sizeAndName";
         }
@@ -842,9 +837,15 @@
         matchPanel.alignChildren = ["left", "top"];
         matchPanel.margins = 12;
         matchPanel.spacing = 4;
-        var matchSize = matchPanel.add("radiobutton", undefined, "Pixel size (width × height)");
-        var matchName = matchPanel.add("radiobutton", undefined, "File name (ignore extension)");
-        var matchBoth = matchPanel.add("radiobutton", undefined, "Both size and file name");
+        var matchNote = matchPanel.add(
+            "statictext",
+            undefined,
+            "Replacements are allowed only when width and height match exactly (1920×1080 replaces 1920×1080, never 1920×1082).",
+            { multiline: true }
+        );
+        matchNote.preferredSize = [440, 32];
+        var matchSize = matchPanel.add("radiobutton", undefined, "Exact pixel size only");
+        var matchBoth = matchPanel.add("radiobutton", undefined, "Exact pixel size and file name");
         matchSize.value = true;
 
         var targetPanel = win.add("panel", undefined, "Project items to replace");
@@ -901,7 +902,6 @@
             path: path,
             subfolders: subfolders,
             matchSize: matchSize,
-            matchName: matchName,
             matchBoth: matchBoth,
             targetAll: targetAll,
             targetSelected: targetSelected,

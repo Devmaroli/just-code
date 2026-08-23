@@ -27,7 +27,7 @@ Enable **Preferences → Scripting & Expressions → Allow Scripts to Write File
 ## Use
 
 1. Click **Browse…** and choose the folder that holds the new images/videos (or paste the path).
-2. Leave **Pixel size (width × height)** selected unless you want name matching.
+2. Leave **Exact pixel size only** selected unless you also want the file names to match.
 3. Choose what to replace: all project footage, only selected Project panel items, or footage used in the active composition.
 4. Click **Scan & Preview**. The list shows `SIZE  project item  →  folder file`.
 5. Click **Replace Matches**. After Effects updates every matched footage item in place, so comps and layers keep their timing and transforms.
@@ -36,11 +36,12 @@ Select rows in the list to replace only those matches. Leave the list unselected
 
 ## Matching rules
 
+A folder file is used only when its **width and height are an exact pixel match** with the project item (`1920×1080` replaces `1920×1080`, never `1920×1082`). After Effects’ reported size is rounded to whole pixels before comparing. After replace, the script checks the footage still has that same size.
+
 | Mode | What must match |
 |------|-----------------|
-| **Pixel size** (default) | Same width × height. If several folder files share a size, a similar file name wins. |
-| **File name** | Same name, ignoring extension (`hero.png` matches `hero.mp4`). |
-| **Both** | Same size **and** the same / very similar name. |
+| **Exact pixel size** (default) | Same width × height. If several folder files share that size, a similar file name wins. |
+| **Exact pixel size and file name** | Same width × height **and** the same / very similar name. |
 
 **Reuse one folder file for every same-size item** (on by default): if the folder has a single `1920×1080` video and the project has three `1920×1080` clips, all three are replaced with that file. Turn this off for a one-to-one assignment.
 

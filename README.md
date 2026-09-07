@@ -20,7 +20,8 @@ Execution-ready business, compliance, hardware, and software plan for a six-node
 | [docs/legal/SITE_LEASE_AND_MOU.md](docs/legal/SITE_LEASE_AND_MOU.md) | Kerala-specific site lease / mall MoU clause set |
 | [docs/legal/STRUCTURAL_STABILITY_CERTIFICATE.md](docs/legal/STRUCTURAL_STABILITY_CERTIFICATE.md) | Structural engineer sign-off template (IS 875 / KMBR) |
 | [docs/procurement/QC_AND_IMPORT_CHECKLIST.md](docs/procurement/QC_AND_IMPORT_CHECKLIST.md) | Factory QC, salt-spray, and ICTT Vallarpadam import workflow |
-| [dooh_kerala_calculator.py](dooh_kerala_calculator.py) | CAPEX / OPEX / revenue / payback calculator |
+| [docs/Kerala_DOOH_Network_Blueprint.pdf](docs/Kerala_DOOH_Network_Blueprint.pdf) | Printable A4 report (cover + 6 modules + annexes) |
+| [dooh_kerala_calculator.py](dooh_kerala_calculator.py) | CAPEX / OPEX / revenue / payback calculator (Python stdlib) |
 
 ## Run the financial model
 
@@ -31,7 +32,18 @@ python3 dooh_kerala_calculator.py --occupancy 0.8 --lease-model hybrid --json
 python3 -m unittest tests.test_dooh_kerala_calculator -v
 ```
 
-No third-party Python packages are required (stdlib only).
+## PDF report
+
+A 26-page A4 working paper (cover, contents, six modules, three annexes) is generated at:
+
+**[docs/Kerala_DOOH_Network_Blueprint.pdf](docs/Kerala_DOOH_Network_Blueprint.pdf)**
+
+Regenerate after editing the markdown pack:
+
+```bash
+python3 -m pip install weasyprint markdown   # once
+python3 scripts/build_pdf_report.py
+```
 
 ## Model headlines (INR, dual-face outdoor, hybrid leases)
 

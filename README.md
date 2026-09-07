@@ -22,6 +22,7 @@ Execution-ready business, compliance, hardware, and software plan for a six-node
 | [docs/procurement/QC_AND_IMPORT_CHECKLIST.md](docs/procurement/QC_AND_IMPORT_CHECKLIST.md) | Factory QC, salt-spray, and ICTT Vallarpadam import workflow |
 | [docs/Kerala_DOOH_Network_Blueprint.pdf](docs/Kerala_DOOH_Network_Blueprint.pdf) | Printable A4 report (cover + 6 modules + annexes) |
 | [docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf](docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf) | Building vs unipole outdoor: cost split, rent, regulatory cash, SWOT |
+| [docs/Kerala_DOOH_Strategy_and_Capital_Plan.pdf](docs/Kerala_DOOH_Strategy_and_Capital_Plan.pdf) | Big Four-style strategy, SWOT, 36-month plan, and how to raise the 90% |
 | [dooh_kerala_calculator.py](dooh_kerala_calculator.py) | CAPEX / OPEX / revenue / payback calculator (Python stdlib) |
 
 ## Run the financial model
@@ -45,9 +46,12 @@ Regenerate after editing the markdown pack:
 python3 -m pip install weasyprint markdown   # once
 python3 scripts/build_pdf_report.py
 python3 scripts/build_cost_swot_pdf.py
+python3 scripts/build_strategy_capital_pdf.py
 ```
 
 A shorter investor pack (building-mounted vs private-land unipole: cost split, rent, regulatory cash, SWOT) is at **[docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf](docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf)**.
+
+A navy strategy memorandum (how a Big Four would run the consultation, SWOT, 36-month plan, and capital formation when the promoter holds ~10% of Site 1 cash) is at **[docs/Kerala_DOOH_Strategy_and_Capital_Plan.pdf](docs/Kerala_DOOH_Strategy_and_Capital_Plan.pdf)**.
 
 ## Model headlines (INR, dual-face outdoor, hybrid leases)
 

@@ -21,6 +21,7 @@ Execution-ready business, compliance, hardware, and software plan for a six-node
 | [docs/legal/STRUCTURAL_STABILITY_CERTIFICATE.md](docs/legal/STRUCTURAL_STABILITY_CERTIFICATE.md) | Structural engineer sign-off template (IS 875 / KMBR) |
 | [docs/procurement/QC_AND_IMPORT_CHECKLIST.md](docs/procurement/QC_AND_IMPORT_CHECKLIST.md) | Factory QC, salt-spray, and ICTT Vallarpadam import workflow |
 | [docs/Kerala_DOOH_Network_Blueprint.pdf](docs/Kerala_DOOH_Network_Blueprint.pdf) | Printable A4 report (cover + 6 modules + annexes) |
+| [docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf](docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf) | Building-mounted outdoor: cost split, rent, regulatory cash, SWOT |
 | [dooh_kerala_calculator.py](dooh_kerala_calculator.py) | CAPEX / OPEX / revenue / payback calculator (Python stdlib) |
 
 ## Run the financial model
@@ -43,7 +44,10 @@ Regenerate after editing the markdown pack:
 ```bash
 python3 -m pip install weasyprint markdown   # once
 python3 scripts/build_pdf_report.py
+python3 scripts/build_cost_swot_pdf.py
 ```
+
+A shorter investor pack (building-mounted cost split, rent, regulatory cash, SWOT) is at **[docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf](docs/Kerala_DOOH_Cost_Estimate_and_SWOT.pdf)**.
 
 ## Model headlines (INR, dual-face outdoor, hybrid leases)
 
